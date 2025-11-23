@@ -43,21 +43,25 @@ int wprowadzInt(string prompt);
 void usun();
 
 int main() {
-
 	for (int i = 0; i < 10; i++) {
-		tab[i] = wprowadzInt("Podaj liczbe ca³kowita do umieszczenia na " + to_string(i) + " pozycji tablicy: ");
+		tab[i] = wprowadzInt("Podaj liczbe calkowita do umieszczenia na " + to_string(i) + " pozycji tablicy: "); //to_string jest konieczne, bo + nie mo¿e po³¹czyæ typu string z typem int
 	}
 
 	for (int i = 0; i < rozmiar; i++) {
 		cout << "[" << i << "]=" << tab[i] << "  ";
 	}
 
-	usun();
+	bool wybor;
 
-	cout << "Zawartosc tablicy po usunieciu:" << endl;
-	for (int i = 0; i < rozmiar; i++) cout << "[" << i << "]=" << tab[i] << "  ";
-	cout << endl;
-
+	while (rozmiar > 0) {
+		cout << endl << "Wpisz 1 jesli chcesz usunac element z tablicy lub 0 by zakonczyc program: ";
+		cin >> wybor;
+		if (wybor == true) { //mo¿e byæ te¿ po prostu if (wybor)
+			usun();
+		}
+		else
+			break;
+	}
 	return 0;
 }
 
@@ -66,13 +70,16 @@ int wprowadzInt(string prompt) { // razem z wywo³aniem funkcji w nawiasie nale¿y
 	while (true) { //ca³y czas, a¿ pojawi siê return
 		int a;
 		cout << prompt;
-		if (cin >> a) { // operator  >> pomija bia³e znaki i czyta znaki, które da siê zinterpretowaæ jako liczbê ca³kowit¹ – czyli if jest prawdziwy jeœli chocia¿ pierwszy znak jest cyfr¹
+		if (cin >> a) { // operator  >> pomija spacje, tab, nowe linie i czyta znaki, które da siê zinterpretowaæ jako liczbê ca³kowit¹ – czyli if jest prawdziwy jeœli chocia¿ pierwszy znak jest cyfr¹ lub minusem
 			// zapisuje tylko cyfry, nawet jeœli w ci¹gu znaków pojawia siê np litera, a liczby po przecinku ucina
-			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+			cin.ignore(numeric_limits<streamsize>::max(), '\n'); // czyœci bufor wejœcia; 
+			// ignore(n, delim) odrzuca do n znaków z wejœcia lub do napotkania znaku delim (tu: '\n'), w zale¿noœci co nast¹pi wczeœniej.
+			// "numeric_limits<streamsize>::max()" to bardzo du¿a wartoœæ, wiêc w praktyce ten fragment znaczy "zignoruj wszystko do koñca linii"
 			return a;
 		}
+		//else - nie musi siê pojawiæ, bo jeœli if bêdzie prawdziwy, to pêtla siê skoñczy
 		cout << "Niepoprawne dane. Podaj liczbe calkowita." << endl;
-		cin.clear();
+		cin.clear(); // "resetuje flagi stanu strumienia (np. failbit), tak aby mo¿na by³o znów u¿ywaæ cin."
 		cin.ignore(numeric_limits<streamsize>::max(), '\n');
 	}
 }
@@ -92,6 +99,10 @@ void usun() {
 	for (int i = poz; i < rozmiar - 1; ++i) {
 		tab[i] = tab[i + 1];
 	}
-	--rozmiar;
+	rozmiar = rozmiar - 1;
 	cout << "Usunieto element na pozycji " << poz << "." << endl;
+
+	cout << "Zawartosc tablicy po usunieciu:" << endl;
+	for (int i = 0; i < rozmiar; i++) cout << "[" << i << "]=" << tab[i] << "  ";
+	cout << endl;
 }
