@@ -28,7 +28,7 @@ wprowadzonymi z klawiatury, nastêpnie napisz w³asn¹ funkcjê która usuwa wartoœæ 
 ¿e funkcja usun() prosi u¿ytkownika o podanie pozycji [0,9] z której ma usun¹æ wartoœæ. Poprzez usuniêcie
 rozumiemy odpowiednie przesuniêcie pozosta³ych wartoœci w tablicy i zmniejszenie globalnej zmiennej
 rozmiar o jeden. Wyœwietl elementy tablicy po usuniêciu.
- */
+
 
 #include <iostream>
 #include <limits>
@@ -44,7 +44,7 @@ void usun();
 
 int main() {
 	for (int i = 0; i < 10; i++) {
-		tab[i] = wprowadzInt("Podaj liczbe calkowita do umieszczenia na " + to_string(i) + " pozycji tablicy: "); //to_string jest konieczne, bo + nie mo¿e po³¹czyæ typu string z typem int
+		tab[i] = wprowadzInt("Podaj liczbe calkowita do umieszczenia na " + to_string(i) + " pozycji tablicy: ");  //to_string, bo + nie mo¿e po³¹czyæ typu string z typem int;														
 	}
 
 	for (int i = 0; i < rozmiar; i++) {
@@ -106,3 +106,74 @@ void usun() {
 	for (int i = 0; i < rozmiar; i++) cout << "[" << i << "]=" << tab[i] << "  ";
 	cout << endl;
 }
+ */
+
+/* zad 3 - Napisz program w którym zadeklarujesz 2 globalne tablice (float TEMP1[10], float TEMP2[10]) i globalny
+indeks (int INDEKS = 0) wspólny dla tych tablic, a nastêpnie napisz 3 funkcje: przelicz(), zapisz(),
+wyswietl(), które wywo³asz w g³ównej czêœci kodu. Indeks globalny ma przechowywaæ numer ostatnio
+zapisanej pary temperatura_podana/temperatura_przeliczona. Funkcja przelicz() przyjmuje argument
+typu float (temperaturê) i zwraca przekonwertowan¹ temperaturê (ze skali C na skalê K, zgodnie ze
+wzorem: podana_temp + 273.15). Funkcja zapisz() wpisuje odpowiednie dane do tablic: temperatura
+podana przez u¿ytkownika trafia do tablicy TEMP1, temperatura przeliczona trafia do tablicy TEMP2.
+Funkcja ta powinna przyjmowaæ 2 argumenty wartoœæ temperatury podanej przez u¿ytkownika i wartoœæ
+wyliczonej, ponadto funkcja zapisz() powinna sprawdziæ czy jest miejsce w tablicy (jeœli jest to zapisaæ
+temperatury), a jeœli wielkoœæ tablicy zostanie przekroczona to wyœwietli siê komunikat “Koniec miejsca w
+tablicy, przeliczenie nie zostanie zapisane”. Funkcja wyswietl() wyœwietla tylko tyle elementów ile zosta³o
+zapisanych w tablicach, zgodnie z wartoœci¹ indeksu globalnego. Wyœwietlenie elementów tablicy powinno
+byæ zgodne z formatem: nr. indeksu: temp_podana -> temp_przeliczona. Przetestuj napisane w funkcje
+w g³ównej funkcji main().
+
+
+#include <iostream>
+using namespace std;
+
+int indeks = 0;
+float TEMP1[10];
+float TEMP2[10];
+float podana_temp;
+float wynik;
+bool wybor;
+
+float przelicz();
+void zapisz();
+void wyswietl();
+
+int main() {
+	while (true) {
+		cout << endl << "Wpisz 1 by przeliczyc C na K lub 0 by zakonczyc dzialanie programu: ";
+		cin >> wybor;
+		if (wybor == true) {
+			wynik = przelicz();
+			zapisz();
+			wyswietl();
+		}
+		else
+			break;
+	}
+	return 0;
+} 
+
+float przelicz() {
+	cout << "Podaj temperature w C: ";
+	cin >> podana_temp;
+	return podana_temp + 273.15;
+}
+
+void zapisz() {
+	if (indeks < 10) {
+		TEMP1[indeks] = podana_temp;
+		TEMP2[indeks] = wynik;
+		indeks++;
+	}
+	else {
+		cout << "Koniec miejsca w tablicy, przeliczenie nie zostanie zapisane";
+	}
+}
+
+void wyswietl() {
+	for (int i = 0; i < indeks; i++) {
+		cout << i << ": " << TEMP1[i] << " -> " << TEMP2[i] << endl;
+	}
+}
+
+*/
